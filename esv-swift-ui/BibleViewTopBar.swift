@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BibleViewTopBar : View {
+    @State var presentingBookPicker = false
     let data:[BibleViewMenuAction] = [ .Text_Settings, .Language_Tools, .Bookmarks]
     let action: (_ actor: BibleViewMenuAction) -> Void
     var body: some View {
@@ -17,9 +18,14 @@ struct BibleViewTopBar : View {
             })
             .padding(.leading, 14)
             Spacer()
-            Text("Psalm 73 ^")
+            Button("Psalm 73 ^") {
+                presentingBookPicker.toggle()
+            }
                 .font(.custom("Gotham-Book", size: 16))
                 .foregroundColor(Color(hex:"72ABBF"))
+                .sheet(isPresented: $presentingBookPicker) {
+                    BookPicker()
+                }
             Spacer()
             Menu {
                 ForEach(data, id:\.self) { (item:BibleViewMenuAction) in
